@@ -31,11 +31,13 @@ func main() {
 func handleRequest(conn net.Conn) {
     defer conn.Close()
 
-    buf := make([]byte, 1024)
-    _, err := conn.Read(buf)
-    if err != nil {
-        log.Panicln(err)
-    }
+    for {
+        buf := make([]byte, 1024)
+        _, err := conn.Read(buf)
+        if err != nil {
+            return;
+        }
 
-    conn.Write([]byte("Message received."))
+        conn.Write([]byte("Message received."))
+    }
 }
