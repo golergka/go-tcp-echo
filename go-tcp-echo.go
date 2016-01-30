@@ -3,16 +3,21 @@ package main
 import (
     "net"
     "log"
+    "flag"
+    "strconv"
 )
 
 const (
-    CONN_HOST = "localhost"
-    CONN_PORT = "3333"
     CONN_TYPE = "tcp"
 )
 
 func main() {
-    l, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
+    host := flag.String("host", "localhost", "The host to run echo serve on.")
+    port := flag.Int("port", 3333, "Port to accept connections on.")
+    flag.Parse();
+
+    url := *host + ":" + strconv.Itoa(*port)
+    l, err := net.Listen(CONN_TYPE, url)
     if err != nil {
         log.Panicln(err)
     }
@@ -33,11 +38,10 @@ func handleRequest(conn net.Conn) {
 
     for {
         buf := make([]byte, 1024)
-        _, err := conn.Read(buf)
+        size, err := conn.Read(buf)
         if err != nil {
             return;
         }
-
-        conn.Write([]byte("Message received."))
+        conn.Write(buf[:size])
     }
 }
