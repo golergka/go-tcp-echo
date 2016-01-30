@@ -1,1 +1,1 @@
-web: go-tcp-echo
+web: go-tcp-echo --port $PORT
