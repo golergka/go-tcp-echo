@@ -7,21 +7,15 @@ import (
 	"strconv"
 )
 
-const (
-	CONN_TYPE = "tcp"
-)
-
 func main() {
-	host := flag.String("host", "localhost", "The host to run echo serve on.")
 	port := flag.Int("port", 3333, "Port to accept connections on.")
 	flag.Parse()
 
-	url := *host + ":" + strconv.Itoa(*port)
-	l, err := net.Listen(CONN_TYPE, url)
+	l, err := net.Listen("tcp", ":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Panicln(err)
 	}
-	log.Println("Listening to connections on", url)
+	log.Println("Listening to connections on port", strconv.Itoa(*port))
 	defer l.Close()
 
 	for {
