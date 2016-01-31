@@ -149,4 +149,34 @@ The only thing that irritates me about this is the fact that they decided to use
 
 Thankfully, just like on Github, you can create an unlimited amount of Automated Builds as long as they're public. So, you can enjoy a public Automated Build for this Github repo here:
 
-[[https://hub.docker.com/r/golergka/go-tcp-echo/]]
+https://hub.docker.com/r/golergka/go-tcp-echo/
+
+## Godep
+
+Theoretically, Go comes with it's own configuration and environment setup. The whole $GOPATH thing. However, it kind of sucks. So, instead, if you have a real Go project, you got to use [godep](https://github.com/tools/godep).
+
+Done with introduction, now, to get things going, let's start! First of all, let's try this line right from their README...
+
+```bash
+$ godep save -r
+```
+
+Wait. That's it? I was so excited for 30 more minutes of configuration nightmare, but it seems that you can actually put your Go project on godep with just three simple magic words. Just in case you're curious what have it done, here's [a link the whole commit](https://github.com/golergka/go-tcp-echo/commit/9c6bdee36d447a537fa522c2b34da20b45a24baa). Seems a lot like NPM, to be honest.
+
+Well, on to the next thing.
+
+## Heroku
+
+Heroku is a little sneaky service. After 5 minutes of reading the manuals, you'll be left with two thoughts. One will be "damn, is it easy to set it up", and the other is "VENDOR LOCK-IN ALERT". Both are very true.
+
+Anyway, they have [a great tutorial about putting out an example Go application](https://devcenter.heroku.com/articles/getting-started-with-go#introduction). Go ahead, read it. I'll wait.
+
+As you see, it wasn't a coincidence that godep section was before this one: Heroku actually need godep to be configured to work with go projects. One more thing that they need, though, is Procfile. 
+
+### Procfile
+
+Let's try something simple:
+
+```
+web: go-tcp-echo --port $PORT
+```
