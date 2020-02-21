@@ -9,13 +9,14 @@ import (
 
 func main() {
 	port := flag.Int("port", 3333, "Port to accept connections on.")
+	host := flag.String("host", "127.0.0.1", "Host or IP to bind to")
 	flag.Parse()
 
-	l, err := net.Listen("tcp", ":" + strconv.Itoa(*port))
+	l, err := net.Listen("tcp", *host+":"+strconv.Itoa(*port))
 	if err != nil {
 		log.Panicln(err)
 	}
-	log.Println("Listening to connections on port", strconv.Itoa(*port))
+	log.Println("Listening to connections at '"+*host+"' on port", strconv.Itoa(*port))
 	defer l.Close()
 
 	for {
